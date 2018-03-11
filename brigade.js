@@ -3,8 +3,8 @@ const { events, Job, Group } = require('brigadier')
 events.on("push", (brigadeEvent, project) => {
     console.log(">>> event " + brigadeEvent.type + " caused by " + brigadeEvent.provider)
     console.log(">>> project " + project.name + " clones the repo at " + project.repo.cloneURL)
-    console.log(">>> github commit " + brigadeEvent.commit)
-    console.log(">>> event object " + JSON.stringify(brigadeEvent))
+    console.log(">>> github commit " + brigadeEvent.revision.commit)
+    //console.log(">>> event object " + JSON.stringify(brigadeEvent))
     
     // setup variables
     var gitPayload = JSON.parse(brigadeEvent.payload)
@@ -13,7 +13,7 @@ events.on("push", (brigadeEvent, project) => {
     brigConfig.set("acrUsername", project.secrets.acrUsername)
     brigConfig.set("acrPassword", project.secrets.acrPassword)
     brigConfig.set("webImage", "azureworkshop/rating-web")
-    brigConfig.set("gitSHA", brigadeEvent.commit.substr(0,7))
+    brigConfig.set("gitSHA", brigadeEvent.revision.commit.substr(0,7))
     brigConfig.set("eventType", brigadeEvent.type)
     brigConfig.set("branch", getBranch(gitPayload))
     brigConfig.set("imageTag", `${brigConfig.get("branch")}-${brigConfig.get("gitSHA")}`)
