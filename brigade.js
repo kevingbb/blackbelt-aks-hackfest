@@ -3,6 +3,8 @@ const { events, Job, Group } = require('brigadier')
 events.on("push", (brigadeEvent, project) => {
     console.log(">>> event " + brigadeEvent.type + " caused by " + brigadeEvent.provider)
     console.log(">>> project " + project.name + " clones the repo at " + project.repo.cloneURL)
+    console.log(">>> github commit " + brigadeEvent.commit)
+    console.log(">>> event object " + JSON.stringify(brigadeEvent))
     
     // setup variables
     var gitPayload = JSON.parse(brigadeEvent.payload)
